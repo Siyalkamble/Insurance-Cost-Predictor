@@ -19,7 +19,7 @@ A Linear Regression model trained on a simplified Ames Housing dataset to predic
 ---
 
 ## 📓 View Notebook
-[Click here to view notebook](https://nbviewer.org/github/Siyalkamble/House-Prediction-Model-using-Linear-regression-/blob/main/House%20Price%20Predictor.ipynb)
+[Click here to view notebook](https://nbviewer.org/github/Siyalkamble/house-price-predictor/blob/main/House%20Price%20Predictor.ipynb)
 
 ---
 
