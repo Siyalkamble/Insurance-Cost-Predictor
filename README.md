@@ -26,7 +26,7 @@ Unlike the House Price Predictor (single model, capped by missing features), thi
 ---
 
 ## 📓 View Notebook
-[Add your GitHub/nbviewer link here once pushed]
+https://nbviewer.org/github/Siyalkamble/Insuarance-Cost-Predictor/blob/main/Medical_Insurance_Cost.ipynb
 
 ---
 
