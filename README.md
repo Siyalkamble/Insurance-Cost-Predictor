@@ -155,7 +155,7 @@ medical-insurance-cost-predictor/
 git clone https://github.com/Siyalkamble/medical-insurance-cost-predictor
 
 # Install dependencies
-uv pip install pandas numpy scikit-learn matplotlib seaborn
+uv pip install -r requirements.txt
 
 # Open notebook
 jupyter lab Medical_Insurance_Cost.ipynb
