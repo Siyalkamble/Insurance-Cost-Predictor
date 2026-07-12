@@ -1,7 +1,12 @@
-import streamlit as st
-import requests
+import os
 
-API_URL = "http://127.0.0.1:8000/predict"
+import requests
+import streamlit as st
+
+API_URL = os.getenv(
+    "API_URL",
+    "https://insurance-cost-predictor-ctwv.onrender.com/predict",
+)
 
 st.set_page_config(page_title="Medical Insurance Price Predictor")
 
@@ -15,7 +20,7 @@ children = st.number_input("No. of Children", min_value=0, value=0, step=1)
 smoker = st.selectbox("Are you a smoker?", options=["Yes", "No"])
 region = st.selectbox(
     "Region",
-    options=["Southwest", "Southeast", "Northwest", "Northeast"]
+    options=["Southwest", "Southeast", "Northwest", "Northeast"],
 )
 
 if st.button("Predict the cost"):
@@ -25,23 +30,33 @@ if st.button("Predict the cost"):
         "bmi": float(bmi),
         "children": int(children),
         "smoker": smoker,
-        "region": region
+        "region": region,
     }
 
     try:
-        response = requests.post(API_URL, json=inp_data, timeout=10)
+        response = requests.post(API_URL, json=inp_data, timeout=15)
+        response.raise_for_status()
+        result = response.json()
+        prediction = result.get("prediction")
 
-        if response.status_code == 200:
-            result = response.json()
-            st.success(f"Predicted Price: {result['prediction']}")
+        if prediction is None:
+            st.error("The prediction service returned an unexpected response.")
         else:
-            st.error(f"API Error: {response.status_code} - {response.text}")
-
-    except requests.exceptions.ConnectionError:
-        st.error("Could not connect to the FastAPI server. Make sure the backend is running on port 8000.")
+            st.success(f"Predicted Price: {float(prediction):.2f}")
 
     except requests.exceptions.Timeout:
-        st.error("The request timed out. The backend took too long to respond.")
-
-    except Exception as e:
-        st.error(f"Unexpected error: {str(e)}")
+        st.error("The prediction service took too long to respond. Please try again shortly.")
+    except requests.exceptions.ConnectionError:
+        st.error("Unable to reach the prediction service right now. Please try again later.")
+    except requests.exceptions.HTTPError as exc:
+        detail = ""
+        if exc.response is not None:
+            try:
+                detail = exc.response.json().get("detail", exc.response.text)
+            except ValueError:
+                detail = exc.response.text
+        st.error(f"Prediction service error: {detail or str(exc)}")
+    except ValueError:
+        st.error("The prediction service returned an invalid response.")
+    except Exception as exc:
+        st.error(f"Unexpected error: {exc}")
