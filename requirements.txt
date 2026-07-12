@@ -1,5 +1,7 @@
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+pydantic==2.11.7
+pandas==2.3.1
+scikit-learn==1.7.0
+streamlit==1.47.0
+requests==2.32.4
