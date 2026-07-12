@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from Schema.user_input import UserInput
+from schema.user_input import UserInput
 from model.predict import predict_output, MODEL_VERSION
 
 app = FastAPI()
